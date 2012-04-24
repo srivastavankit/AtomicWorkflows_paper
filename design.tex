@@ -1,0 +1,35 @@
+\section{System design}\label{sec:design}
+
+\subsection{Message Queue Manager}
+The message queue manager provides a highly scalable and highly available message queue(s). Each workflow instance
+  has atleast one instance of a message that contains the status and instance
+  information of a workflow, and it triggers new jobs when it is consumed by a worker.
+  MQM receives a message over the http protocol and removes a message from the
+  queue when there exists a consumer that has an open channel with it. The MQM maintains
+  two sets of queues - an active queue for all the available messages, and a
+  queue for unacknowledged messages. Any message that is consumed by a consumer
+  is not removed from the MQM until it has been acknowledged. When a message is
+  requested by a worker for processing, it is transferred from the active queue
+  to unacknowledged queue. If it is acknowledged, the message is served, else it
+  is requeued back into the queue. MQM provides high scalability by providing
+  mechanisms for topic based clustering of messages. We can implement multiple
+  queues based on some partitioning mechanism, that can each serve messages for a cluster of workers.
+\subsection{Worker}
+%/* Worker definition*/
+A worker is where the task execution occurs. A worker polls to obtain a task
+from the Message Queue Manager. Once a new message is received, it obtains the
+workflow run id and status from the message. The worker requests for the
+workflow metadata from the repository, after which it executes the next task. After the task processing
+is complete, it writes back the workflow run state to the repository, data
+changes are saved and creates a new message that is sent to Message Queue
+Manager. 
+\subsection{Workflow}
+As we defined earlier as well, a workflow is a set of tasks. Each task operates
+upon a single key-value pair. Before the workflow executes the business logic
+associated with itself, it creates a key group of all the keys (entities) that
+are accessed by the workflow. We consider this step as a blackbox and use the
+same protocol as presented in [G-Store]. If at any step, a task fails, then the
+workflow reverses the effect of the partially executed workflow by running the
+negate tasks, with the last executed task first. The workflow completes by
+either successfully completing all the tasks, including key group creation and
+deletion, or by successfully negating the effects of any partial run. 

@@ -1,0 +1,28 @@
+\section{Related Work} \label{sec:relwork}
+
+Google's datastore allows creation of transactions across multiple
+entities (keys) as in []. Although, the only restriction with their
+approach is static grouping of entities that restrict re-usability of an entity for another
+transaction. Amazon S3 guarantees atomicity at the granularity of single
+key-value pair. The transactional semantics for creating a transaction across
+single/multiple buckets(entities) is left to the application developer. It can,
+although, be easily achieved by using a simple two-layered close nested
+distributed transaction model as described in [http://www.dbis.prakinf.tu-ilmenau.de/publications/files/DBIS:GroSat11.pdf].
+---Add scalaris way of doing a transaction while maintaining ACID---.
+
+The notion of transaction as a workflow has been extensively researched and a
+lot of executional models have already been proposed in
+as in [Colored Petri Nets, Divy's Paper, TRWF Paper]. But, this is the first
+attempt that researches into the issue of a transaction in the context of a
+distributed key value storage setting where the semantics of ACID are not
+dropped in order to abide by the CAP theorem. This is the first attempt, as far as we know,
+that conceptualizes a new model of executing transactions across multiple
+entities (keys) on an underlying distributed key value store, where the most
+granular set of operation, currently, is a single key update. Thereby, still maintaining
+the ACID properties in a distributed setting, without incurring the overhead involved
+with carrying out distributed transactions[some paper].
+
+G-Store[link] extends the functionalities of a key-value datastore by allowing
+creation of dynamic key (entity) groups that can be leveraged for transactional
+multi-keys (entities) access, while maintaining a low overhead in group
+creation stage. 

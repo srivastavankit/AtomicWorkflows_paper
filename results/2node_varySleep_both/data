@@ -1,0 +1,6 @@
+"sleep time"	"simulation (l=3persec)"	"experimental (l=3persec)"	"simulation (l=5persec)"	"experimental (l=5persec)
+0.32	0.250	0.278	0.523	0.277
+0.48	0.484	0.404	66.19	0.408
+0.64	2.098	0.544	171.6	0.565
+0.80	54.18	0.532	210.8	0.623
+0.96	120.3	0.676	253.2	0.691

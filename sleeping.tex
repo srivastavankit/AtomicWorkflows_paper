@@ -1,0 +1,69 @@
+\documentclass[10pt, conference]{IEEEtran}
+
+% \usepackage{hyperref}	%To get rid of EDAS warning: External links are not allowed
+\usepackage{amsmath}
+%\pdfpagewidth=8.5in
+%\pdfpageheight=11in
+\usepackage{graphicx}
+\usepackage{array}                 % nicer looking arrays?
+\usepackage{cite}
+\usepackage{url}
+\usepackage{multirow} 		% multiple rows in a table
+%\usepackage{subfigure}
+\usepackage{subfig}
+\usepackage{color,latexsym,amsfonts,amssymb}
+\usepackage{bm} %use \bm instead of \mathbf
+
+\makeatletter
+\def\ps@headings{%
+\def\@oddhead{\mbox{}\scriptsize\rightmark \hfil \thepage}%
+\def\@evenhead{\scriptsize\thepage \hfil \leftmark\mbox{}}%
+\def\@oddfoot{}%
+\def\@evenfoot{}}
+\addtolength\textfloatsep{-3ex}
+
+\title{Atomic Workflow Transactions}
+%\title{QoS-aware Sleep Periods for Energy-Efficient transactional-based Wireless Sensor Networks}
+
+%%%%% AUTHORS %%%%%
+%\author{\IEEEauthorblockN{Deepak Jha \texttt{deepakjha@cs.ucsb.edu}}
+%\IEEEauthorblockN{Kai Howelmeyer \texttt{hoewelmeyer@umail.ucsb.edu}}
+%\IEEEauthorblockN{Faisal Nawab \texttt{nawab@cs.ucsb.edu}}
+%\vspace{5pt}
+%\IEEEauthorblockA{University of California, Santa Barbara\\
+%Department of Computer Science
+%}}
+
+\author{Author 1, Author 2, Author 3\\
+  Department of Computer Science, UC Santa Barbara\\
+  \{xxxx, xxxx, xxxx\}@cs.ucsb.edu}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\begin{keywords}
+	Keywords.
+\end{keywords}
+
+\input{introduction}
+
+\input{motivation}
+
+\input{relwork}
+
+\input{background}
+
+\input{design} 
+
+\input{model}
+
+\bibliographystyle{plain}
+\bibliography{sleeping}
+
+\end{document}

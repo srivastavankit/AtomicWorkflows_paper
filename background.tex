@@ -1,0 +1,33 @@
+\section{Prototype infrastructure}\label{sec:background}
+
+%/* speak here about messaging queuing, loosly coupled architecture, artifact
+% based approach. */
+The system has been designed such that the whole architecture is loosely
+coupled. Messages are used for maintaining status information
+(running/stopping) of a workflow instance. The system mainly consists of three
+main components - message, task and a repository. A
+detailed description of each component is given below -
+
+\begin{itemize}
+  \item{\emph{Message}: A message contains a run id and the
+  status information of a workflow instance. It allows the workers to obtain the current state of
+  the instance and trigger the next job, provided the instance is
+  still running. The message contains no information about the state of the
+  instance.}
+  \item{\emph{Task}: A workflow is a set of tasks, either in sequence or in
+  parallel. Each task represents a granular activity that is atomic, i.e. a
+  task can modify a single key(entity). Each task has a corresponding -Negation
+  Task-. A negation task is the one that nullifies the effects of the original
+  task in case of workflow failure, to bring the system state back to
+  its original state. Each task that modifies a key-value pair, must have a
+  negation task. A simple negation task can be one that restores the previous
+  version of a key-value pair. Although, as we discussed
+  earlier that real world tasks may not be reversible, we let the users of this
+  system design custom negation tasks to provide flexibility.}
+  \item{\emph{Repository}: The repository stores two types of data - the actual
+  data that is modified by business logic; and the metadata associated with
+  workflows - workflow definition, task definition, run state, etc. To ease the
+  complexity of the design, we can also have two separate repositories. The
+  repository is accessed by workers to obtain the run state of a workflow
+  instance or the data that can be modified by the instance.}  
+\end{itemize}

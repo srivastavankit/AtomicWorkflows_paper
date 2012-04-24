@@ -1,0 +1,14 @@
+\section{Evaluation}
+
+In this section we will present an evaluation of our framework using simulation and a prototype implementation. We use QualNet~\cite{16} with a sensor networks plug-in for simulations. Each simulation run takes 15 minutes. The reported workloads ($\lambda$ or $l$ in figures) are the number of requests per second for the whole network. A node is selected uniformly as a destination of each request. Prototype results are averaged over 1000 requests. Reported results are for end-to-end delay of requests from front-end to end-node unless mentioned otherwise. Parts used for our prototype are over-viewed in Section~\ref{sec:background}. The evaluation will start with analyzing the behavior of service times. Then, delay time measurements are displayed and compared with the model. After that, we show results for the prototype implementation. Finally, we will explore the efficacy of using the model to maximize sleeping times while maintaining an average delay.
+
+\subsection{Service time}
+In this section we will investigate the service time, mentioned in section~\ref{sec:model}. We will observe two topologies with one and two end-nodes. In each experiment, we will plot the average service time while varying the sleep time for different workloads. The calculated service time is obtained by rearranging Equation~\ref{eq:waiting_2} and solving for it by substituting the remaining known variables. We make an assumption that the distribution of service times is discrete; results in next subsections support that this is a working approximation. 
+
+
+
+\subsection{Assigning sleeping times}
+In this section we will put our findings to the test. For three networks with 2, 3 and 10 nodes respectively, we will calculate sleeping times that guarantee an upper bound for delay. Results are shown in Figure~\ref{fig:test_2nodes}. Having a larger number of nodes or a larger workload make the approximation more conservative, as shown in the figure. Furthermore, a larger requirement make the calculated sleeping time more conservative relatively. This is due approaching saturation which makes the calculation of wait times more sensitive to service times.
+
+
+

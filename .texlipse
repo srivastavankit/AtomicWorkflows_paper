@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Thu Apr 12 16:20:38 PDT 2012
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=sleeping.tex
+outputFile=sleeping.pdf
+langSpell=en
+markDer=true
+srcDir=

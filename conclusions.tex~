@@ -1,0 +1,5 @@
+\section{Conclusions}\label{sec:conclusions}
+In this paper we studied a query-based WSN where nodes are requested for information on-demand. Specifically, we tackle the problem of energy efficiency. We demonstrated that sleep times have a significant impact on energy consumption even with the same cumulative sleeping time. We model the system as a M/G/1 queueing model to capture wait times with respect to workload, sleep time, and MAC layer characteristics. A simulation study is performed to aid and validate our findings. Furthermore, a prototype implementation of the framework was presented. Finally, We showed that we can maintain upper-bound wait times for delay using our model.
+
+This work can aid in developing closed-form models to model MAC layer dynamics for the considered framework. Furthermore, we are currently exploring the possibility of maintaining a strict upperbound on wait times using the model. This can be achieved by limiting the number of requests on fly. This limit can be achieved by a simple deriviation from the presented model.
+

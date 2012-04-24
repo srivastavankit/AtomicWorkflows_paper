@@ -1,0 +1,39 @@
+\section{System design}\label{sec:design}
+
+\subsection{WSN as a DB}
+Wireless networks as virtual databases is an emerging area of research interest. The most popular data model in use today is the relational data model. We use the relational model in our front-end. SQL type interface is present which provides a way to query data using various SQL operators. The main goal of WSN as database is to preserve the location transparency. So the idea is to allow the user to generate the query on a sensor network without having knowledge of the topology. An example of such queries is: \texttt{SELECT AVG(temperature) FROM \$all WHERE floor = '2'}, where the average temperature of nodes in the second floor is calculated.
+
+\subsection{Sleeping Scheme}
+%/* what do we understand under sleeping and how did we implement it? */
+We use a cyclic sleeping scheme. A node goes to sleep if a specific amount of time, we call it \emph{idle\_time}, passed with no activity. Activity includes transmissions and receptions to or from the node. The sleep cycle time is fixed. When a sleep cycle finishes, the node wakes up and pull its parent node. Upon polling, the parent node will transmit all buffered packets to the node. In our prototype and simulation we choose the value of idle\_time to be very small to allow for longer sleep durations. Furthermore, under load that has a mean time of interarrivals less than \emph{idle\_time}, the node might not go to sleep. This can make the node active all the time and making us not benefiting from having an upper threshold of delay requirements. Thus, it is necessary to sleep almost immediately after serving packets.
+
+\subsection{Front-end design}
+%/* This subsection on the front-end (server) that will take queries and process them and transform them to light-weight queries sent to the sensors */
+The front-end design consists of a web based user interface listing the wireless sensor nodes present in the topology. This UI queries the data from a back-end MySQL database. There is a provision to drill down the report on the basis of attributes such as nodeId, floor number, etc.
+%/* The process of breaking the query to simpler light-weight queries. How data is assembled from nodes etc */
+We have implemented a query processor to fetch the data from nodes based on the attributes such as their physical location (which is floor number in our case). The query interface will fetch the details of all nodes that satisfies the condition (\emph{i.e.}, floor number in our case) and then send query request packets to them. The result of this query gets stored in the database and it can be used later to perform any analysis. So the role of query interface is to filter the nodes based on the query condition and then stores the result into the database. The front-end also includes a communication module that generate packets in the format acceptable by XBee nodes and wait for replies from sensors.
+
+%\subsubsection{Concurrency gurantees}
+%/* I was thinking that we should add actuators to our system. For example, a sensor to detect if the light is on and is capable of turning the light on/off (or something like, if the temperature is above 25 deg. turn AC on). What is here is how to gurantee that a query is right. I propose to treat it as timestamp-based concurrency management, and the proof of correctness is available. Also, we should talk that a property of this scheme is that a correct behavior is maintained while that we always accept read requests, but a write can be rejected.
+%BTW, I beleive this is VEEEERY novel, they usually talk about sensing only.
+% */
+
+%\subsection{Back-end design}
+%The back-end denotes the body of sensor nodes in the network. Each consists of a micro-controller and an XBee wireless module. The micro-controller receives requests from the front-end through the attached wireless module. It then processes the request. For example, for a \emph{get} request, the micro-controller sends back the value read by the specified sensor to the front-end.
+
+%\subsection{Hardware}
+%We are using two Arduino Uno microcontrollers as end nodes in our prototype topology. Each of these microcontrollers is connected to a XBee Series 2 module for wireless communication. A third XBee module is directly connected to a computer and acts as the coordinator of the network.
+
+%\subsection{Software}
+%The host connected to the XBee controller is running a LAMP-stack, i.e. a linux machine equipped with apache, MySQL, and PHP.
+%/* elaborate here */
+
+\subsection{Simulation Design}
+
+The simulations are done in Qualnet 5.1. All simulations consist of one PAN coordinator node and a specific number of end nodes (Reduced Function Devices). All nodes are part of the same wireless subnet. All nodes operate using the 802.15.4 wireless standard. Routing is done in a static fashion. The beacon order of all nodes is set to 15. This disables the beaconing mode of the mesh network. Therefore, the nodes operate by polling the coordinator for new data with a preset polling interval. In between poll cycles, the transmission interfaces of the end nodes can go to sleep.
+
+The unmodified version of Qualnet does not allow end nodes to sleep in a non-beacon-mode 802.15.4 mesh network. In order to implement this behavior, we had to change the source code of Qualnet. Specifically this involved commenting out \texttt{|| sscs802\_15\_4->t\_BO == 15} on line 379 in the file \textit{sscs\_802\_15\_4.cpp} of the sensor networks library.
+
+Traffic generation in our simulations is accomplished by using a \texttt{SUPER-APP} traffic generator for each end node. The source of the traffic is always the coordinator. All network communication is done unreliable (UDP). The size of the request package is 8 bytes. The package frequency is exponentially distributed. The mean of the package frequency as well as the number of packets is determined based on the desired workload of the overall network. The reply function of the traffic generator is set to reply with exactly one packet, that also has a payload of eight bytes. These replies are send out with a delay of exactly 100ms.
+
+

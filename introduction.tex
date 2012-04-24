@@ -1,0 +1,59 @@
+\section{Introduction}\label{sec:Intro}
+Distributed key-value systems have been widely accepted as the solution to
+provide high scalability, fault tolerance and availability to data intesive web
+applications. These new age database management systems - Google's Bigtable,
+Amazon's Dynamo, Facebook's Cassandra, et al - aim to provide support for a wide
+variety of applications - search indexing, social network, and even an
+e-commerce portal by providing easy-to-access, highly scalable and simple key
+value storage. Although, this comes with the cost of increased complexity at the
+application developement layer for implementing transactional semantics. Since all of these key-value
+stores, with a few exceptions (like Google's Datastore), provide atomic
+transactions at a single key (entity) level, they tend to diverge away from the notions of ACID.
+Google's datastore tries to solve this problem by providing multi-key
+transactions at the cost of static key grouping[]. G-Store presents dynamic,
+on-demand key group creation that can be used as an abstraction for transactional access[].
+Although, distributed protocols - distributed 2-phase commit and locking -
+exhibit very high overhead [modify] that further restrict the usability of
+distributed transactions.
+
+As per CAP theorem[1], it is not possible to provide
+availability and strong consistency guarantees in presence of network
+failures[2]. Coping up with the CAP theorem, most of the distributed key value
+stores have dropped some or most of ACID semantics, that has long been accepted
+as the notion for providing and validating transactional semantics in a data
+management system. Google's datastore provides strong consistency,
+isolation and durability at the cost of limiting the scope of atomicity.
+Atomic transactions are limited to either single key transactions or in
+case of multi-keys where the keys belong to a key group that is static
+in nature. Dropping some or most of these properties loosens the correctness
+criteria of these transactions[]. New age applications of these distributed
+storage systems - like banking, scientific simulations, etc - require
+atleast same or more stricter guarantees as provided by ACID properties, going
+forward.  
+
+Pat Helland in his foresightful paper - Life beyond Distributed Transactions: an
+Apostate’s Opinion []- presented the idea of modelling a distributed transaction
+as a workflow. In his paper, he asserted that most of the real life transactions
+are in fact workflows, where the management of uncertainity must be handeled along with business logic. In this paper, we
+attempt at modelling distributed transactions as workflows to handle
+the semantics of uncertainity. A workflow is a set of tasks, that according to
+our model is atomic. Either the whole workflow is executed, or nothing is
+executed as in case of failures.  This is carried out by nullifying the
+effects of partially run workflows by creating tasks that negate the effects of
+already executed tasks. We believe that not all real world tasks are
+-reversible-, and require external or new tasks to negate its effects. For
+example, a task of issuing a bank check is negated by creating a task to cancel
+the validity of the check. Once issued and dispatched, the check can not be
+retrieved back, although its validity can be easily nullified.
+
+We have three major contributions to this paper -
+\begin{itemize}
+\item{We formalize the notion of a transaction as a workflow in a distributed
+setitng.}
+\item{We present a system that can be deployed for running such
+distributed workflows that aim at maintaining ACID semantics, while emulating
+the behavior of atomic, distributed transactions.}
+\item{We implement a messaging based system that is designed to handle the
+semantics of uncertainity. }
+\end{itemize}
+

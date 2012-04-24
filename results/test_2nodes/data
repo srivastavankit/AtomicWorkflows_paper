@@ -1,0 +1,6 @@
+"l=5/6"	"wait time (2 nodes,l=0.83persec)"	"wait time (2 nodes, l=3.2persec)" "wait time (3nodes, l=0.83persec)" "wait time (10 nodes, l=0.83persec)"
+0.2	0.19	0.16	0.14	0.14
+0.4	0.38	0.35	0.25	0.25
+0.6	0.53	0.41	0.36	0.30
+0.8	0.66	0.53	0.45	0.36
+1.0	0.75	0.62	0.52	0.39

@@ -1,0 +1,41 @@
+\section{Modeling wait time}\label{sec:model}
+
+In this section, we will develop a model of delay and queue utilization of our system. The Rount Trip Time (RTT) experienced by each packet is described by the following sum:
+\begin{equation}
+\psi = W + W_{end node}
+\end{equation}
+where $W$ is the wait time in the front-end, $W_{end node}$ is the wait time experienced by the end-node. We focus on the $W$ since it is effected by the dynamics of sleeping and buffering, where $W_{end node}$ is predictable and can be substituted with a constant value dependent on the channel characteristics and processing requirements. We will use an M/G/1 queue model with vacations. We denote the amount of incoming traffic to the network by $\lambda$. The distribution of interarrival times, $A(t)$, is exponential, where the mean is $\frac{1}{\lambda}$. The service time, denoted as $X$, is translated as the time required to service the packet in the head of the queue of the front-end. This value is dependent on the contention of the medium.
+
+%We start by observing the waiting time. It is the summation of time spent in the queue in addition to the service time, given by
+%\begin{equation}
+%W = R + \sum_{j \in queue} X_j
+%\end{equation}
+%where $R$ is the residual service time seen by an arriving query and $X_j$ is the service time for query $j$. Taking expectations we have
+%\begin{equation}
+%W = R + \bar{X}N_q
+%\end{equation}
+%where $N_q$ is the average queue utilization. Using Little's Formula~\cite{21} we arrive to the following
+%\begin{equation}
+%\label{eq:waiting}
+%W = \frac{R}{1 - \rho}
+%\end{equation}
+%where $\rho$ is the traffic intensity equal to $\lambda\bar{X}$. Thus, we need to find an expression for the average residual time seen by an incoming query. This can be obtained by calculating the average of residual times in a time interval $[0, t]$
+%\begin{equation}
+%\frac{1}{t} \int_0^t r(\tau) d\tau
+%\end{equation}
+%where $r(\tau)$ is the residual time at time $\tau$. The integral is the summation of the contribution of each service time in the considered time interval. The contribution of each service time is half the square of that query's service time. The same is applied to vacations, where the contribution of each vacation period is half the square of that query's service time. This is demonstrated as the following:
+%\begin{equation}
+%\frac{1}{t} \int_0^t r(\tau) d\tau = \frac{1}{t} \sum_{i \in S(0,t)} \frac{X_i^2}{2} + \frac{1}{t} \sum_{i \in V(0,t)} \frac{V_i^2}{2}
+%\end{equation}
+%where $S(0,t)$ and $V(0,t)$ are the set of serviced queries and vacations in the time period $[0, t]$, respectively, and $V_i$ is the vacation time. Solving the summation and taking the limit of $t$ approaching infinity we obtain
+%\begin{equation}
+%\label{eq:residual}
+%R = \frac{\lambda\bar{X^2}}{2} + \frac{(1-\rho)\bar{V^2}}{2\bar{V}}
+%\end{equation}
+For such a system, the wait time can be calculated by the following equation:
+\begin{equation}
+\label{eq:waiting_2}
+W = \frac{\lambda\bar{X^2}}{2 (1-\rho)} + \frac{\bar{V^2}}{2\bar{V}}
+\end{equation}
+where $\rho$ is the intensity and is equal to $\lambda \bar{X}$, and V is the random process describing wait times. We assume that $V$ is discrete. In this relation, $\bar{X^2}$ is the only unknown. The second expectation is given as the sum of variance and squared mean. As we reviewed in the related work section, many solutions were proposed to solve the problem of finding the service time for CSMA/CA protocols. However, we face a novel problem for finding the service time of our framework that was not tackled for sensor networks to the best of the authors knowledge. In our framework, the sleeping agent is disperate from the queueing agent. Furthermore, the service time include the transmission from the front-end which occur in batches, processing and queueing in the backend, and finally transmitting the requested value back to the front end. This introduces complexity into figuring out the service time as a closed-form solution and it remains as an open question worthy of investigation. We take a step into this investigation and take an unconventional mean into determining the service time, hence an experimental approach. We will provide our approach, methodology, and findings in the evaluation section. In it we propose an experimental approximation methodolog and prove its validity through experiments.
+
